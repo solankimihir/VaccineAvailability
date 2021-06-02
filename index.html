@@ -22,6 +22,11 @@
         h1 {
             text-align: center;
         }
+
+        #rightAlign {
+            text-align: right;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -40,10 +45,12 @@
                     <td><input type="text" id="disctrictCodes" /></td>
                 </tr>
                 <tr>
-                    <td></td>
+                    <td id="rightAlign">Press Enter to Search:</td>
                     <td>
                         <center> <button type="button" onclick="search();">Search</button> </center>
                     </td>
+                    <td id="API_CALL_Count"></td>
+
                 </tr>
             </tbody>
         </table>
