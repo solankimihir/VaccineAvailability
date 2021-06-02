@@ -22,7 +22,8 @@ async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
 
     console.log(data);
     for (i = 0; i < data.sessions.length; i++) {
-        if (data.sessions[i].available_capacity_dose1 > 0 && data.sessions[i].min_age_limit < 45) {
+        let condition = data.sessions[i].available_capacity_dose1 <= 0 && data.sessions[i].min_age_limit < 45;
+        if (condition) {
             //insert row
             let districtName = "";
             if (districtID == 395) {
@@ -59,8 +60,8 @@ function search() {
     //clear existing records
     if (table.rows.length > 1) {
         console.log(table.rows.length);
-        for (i = 1; i <= table.rows.length; i++) {
-            table.deleteRow(1);
+        for (i = -1 * table.rows.length; i < -1; i++) {
+            table.deleteRow(i * -1 - 1);
         }
     }
 
