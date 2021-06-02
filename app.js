@@ -55,7 +55,7 @@ function search() {
     console.log(dateOfAvailability);
     console.log(inputDistrictCodes);
     inputDistrictCodes = inputDistrictCodes.split(",");
-
+    document.getElementById('refreshTimerText').value = `Auto Refreshes every ${inputDistrictCodes.length * 3} seconds`;
     //clear existing records
     if (table.rows.length > 1) {
         console.log(table.rows.length);
@@ -69,12 +69,14 @@ function search() {
         countAPICalls += 1;
     }
     document.getElementById('API_CALL_Count').innerText = `API Call Count: ${countAPICalls}`;
+
 }
 
 //setting up default values
 document.getElementById('dateForCheckingAvailability').value = dateOfAvailability;
 document.getElementById('disctrictCodes').value = inputDistrictCodes;
 
+//run search on pressing enter
 document.onkeydown = function (event) {
     if (event.key !== undefined) {
         code = event.key;
@@ -87,3 +89,6 @@ document.onkeydown = function (event) {
         search();
     }
 }
+
+//auto refreshing every (3 * number of disctricts) seconds. If there are 2 district codes, then the code will auto run every 6 seconds
+setInterval(search, inputDistrictCodes.length * 3 * 1000);
