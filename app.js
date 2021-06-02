@@ -22,7 +22,7 @@ async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
 
     console.log(data);
     for (i = 0; i < data.sessions.length; i++) {
-        if (data.sessions[i].available_capacity_dose1 <= 0 && data.sessions[i].min_age_limit < 45) {
+        if (data.sessions[i].available_capacity_dose1 > 0 && data.sessions[i].min_age_limit < 45) {
             //insert row
             let districtName = "";
             if (districtID == 395) {
