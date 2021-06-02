@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check Vaccine Status</title>
     <style>
-        td {
+        .output td {
             border: 1px solid black;
             text-align: center;
         }
@@ -28,7 +28,27 @@
 <body>
     <div class="center">
         <h1>Vaccine Availability Status</h1>
-        <table id="mainTable">
+        <table class="input">
+            <tbody>
+                <tr>
+                    <td>Date [DD-MM-YYYY]</td>
+                    <td><input type="text" id="dateForCheckingAvailability" /></td>
+                </tr>
+
+                <tr>
+                    <td>Disctrict Code(s) [Comma Separated]</td>
+                    <td><input type="text" id="disctrictCodes" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <center> <button type="button" onclick="search();">Search</button> </center>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </p>
+        <table class="output" id="mainTable">
             <tbody>
                 <tr>
                     <td>District Code</td>
