@@ -41,23 +41,32 @@
                     <tr>
                         <td>Date [DD-MM-YYYY]</td>
                         <td><input type="text" id="dateForCheckingAvailability" /></td>
+
                     </tr>
 
                     <tr>
                         <td>Disctrict Code(s) [Comma Separated]</td>
                         <td><input type="text" id="disctrictCodes" /></td>
+                        </td>
                     </tr>
                     <tr>
                         <td id="rightAlign">Press Enter to Search:</td>
                         <td>
                             <center> <button type="button" onclick="search();">Search</button> </center>
                         </td>
-                        <td id="API_CALL_Count"></td>
-
                     </tr>
                 </tbody>
             </table>
+            <p>
+                Options</br>
+                <input type="checkbox" id="optionsAge18plus" checked>Age 18+ &amp &lt 45 </input></br>
+                <input type="checkbox" id="optionsAge45plus">Age 45+ </input> </br>
+                <input type="checkbox" id="optionsDose1" checked>Dose 1 </input></br>
+                <input type="checkbox" id="optionsDose2">Dose 2 </input>
             </p>
+            <h4 id="API_CALL_Count"></h4>
+
+
             <table class="output" id="mainTable">
                 <tbody>
                     <tr>
@@ -67,6 +76,7 @@
                         <td>Name</td>
                         <td>Pin Code</td>
                         <td>Available Capacity for Dose 1</td>
+                        <td>Available Capacity for Dose 2</td>
                     </tr>
                 </tbody>
             </table>

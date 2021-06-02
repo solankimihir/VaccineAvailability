@@ -9,6 +9,9 @@ let inputDistrictCodes = [392, 395];
 
 //Setting API Call Counter
 let countAPICalls = 0;
+
+//condition that is set getVaccineAvaialbility to filter records received from API Call
+let condition = false;
 //This function has limit of 100 hits per 5 min interval.This amounts it an average of 1 API call per 3 seconds.
 async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
     console.log(`Checking for ${districtID} as on  ${dateForCheckingAvailability}`);
@@ -19,32 +22,56 @@ async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
     //converting API Response into JSON
     let data = await response.json();
 
+    //setting conditions based on user input
+
 
     console.log(data);
     for (i = 0; i < data.sessions.length; i++) {
-        let condition = data.sessions[i].available_capacity_dose1 <= 0 && data.sessions[i].min_age_limit < 45;
-        if (condition) {
+        //if available capacity (regardless of dose number or age) is more than 0, then the following block of code will execute
+        if (data.sessions[i].available_capacity > 0) {
+
             //insert row
             let districtName = "";
             if (districtID == 395) {
                 districtName = "Mumbai"
             }
-            if (districtID == 392) {
+            else if (districtID == 392) {
                 districtName = "Thane"
+            } else {
+                districtName = "NA"
             }
-            let newRow = table.insertRow();
-            let newCell = newRow.insertCell();
-            newCell.innerHTML = districtID;
-            newCell = newRow.insertCell();
-            newCell.innerHTML = districtName;
-            newCell = newRow.insertCell();
-            newCell.innerHTML = "Yes";
-            newCell = newRow.insertCell();
-            newCell.innerHTML = data.sessions[i].name;
-            newCell = newRow.insertCell();
-            newCell.innerHTML = data.sessions[i].pincode;
-            newCell = newRow.insertCell();
-            newCell.innerHTML = data.sessions[i].available_capacity_dose1;
+            if (document.getElementById('optionsAge18plus').checked && data.sessions[i].min_age_limit < 45) {
+                if (document.getElementById('optionsDose1').checked && document.getElementById('optionsDose2').checked) {
+                    //show both dose 1 & dose 2 details
+                    //Note: Here dose 1 or dose 2 avaialability is note checked, because if neither of them was available, then this code block would not run
+                    //This code block is sub clause of top level If statement that runs only if (available_dose > 0)
+                    insertRowInTable(districtID, districtName, `18+ Any Dose`, data.sessions[i].name, data.sessions[i].pincode, data.sessions[i].available_capacity_dose1, data.sessions[i].available_capacity_dose2);
+                }
+                else if (document.getElementById('optionsDose1').checked && data.sessions[i].available_capacity_dose1 > 0) {
+                    //show dose 1 details only
+                    insertRowInTable(districtID, districtName, `18+ Dose 1`, data.sessions[i].name, data.sessions[i].pincode, data.sessions[i].available_capacity_dose1, "NA");
+                }
+                else if (document.getElementById('optionsDose2').checked && data.sessions[i].available_capacity_dose2 > 0) {
+                    //show dose 2 details only
+                    insertRowInTable(districtID, districtName, `18+ Dose 2`, data.sessions[i].name, data.sessions[i].pincode, "NA", data.sessions[i].available_capacity_dose2);
+                }
+            }
+            if (document.getElementById('optionsAge45plus').checked && data.sessions[i].min_age_limit > 18) {
+                if (document.getElementById('optionsDose1').checked && document.getElementById('optionsDose2').checked) {
+                    //show both dose 1 & dose 2 details 
+                    //Note: Here dose 1 or dose 2 avaialability is note checked, because if neither of them was available, then this code block would not run
+                    //This code block is sub clause of top level If statement that runs only if (available_dose > 0)
+                    insertRowInTable(districtID, districtName, `45+ Any Dose`, data.sessions[i].name, data.sessions[i].pincode, data.sessions[i].available_capacity_dose1, data.sessions[i].available_capacity_dose2);
+                }
+                else if (document.getElementById('optionsDose1').checked && data.sessions[i].available_capacity_dose1 > 0) {
+                    //show dose 1 details only
+                    insertRowInTable(districtID, districtName, `45+ Dose 1`, data.sessions[i].name, data.sessions[i].pincode, data.sessions[i].available_capacity_dose1, "NA");
+                }
+                else if (document.getElementById('optionsDose2').checked && data.sessions[i].available_capacity_dose2 > 0) {
+                    //show dose 2 details only
+                    insertRowInTable(districtID, districtName, `45+ Dose 2`, data.sessions[i].name, data.sessions[i].pincode, "NA", data.sessions[i].available_capacity_dose2);
+                }
+            }
         }
     }
 
@@ -65,6 +92,7 @@ function search() {
         }
     }
 
+
     for (j = 0; j < inputDistrictCodes.length; j++) {
         getVaccineAvailablity(inputDistrictCodes[j], dateOfAvailability);
         countAPICalls += 1;
@@ -73,6 +101,24 @@ function search() {
 
 }
 
+function insertRowInTable(_districtID, _districtName, _availabilityText, _name, _pinCode, _available_capacity_dose1, _available_capacity_dose2) {
+    let newRow = table.insertRow();
+    let newCell = newRow.insertCell();
+    newCell.innerHTML = _districtID;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = _districtName;
+    newCell = newRow.insertCell();
+    //insert Age and Dose Details here:
+    newCell.innerHTML = _availabilityText;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = _name;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = _pinCode;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = _available_capacity_dose1;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = _available_capacity_dose2;
+}
 //setting up default values
 document.getElementById('dateForCheckingAvailability').value = dateOfAvailability;
 document.getElementById('disctrictCodes').value = inputDistrictCodes;
