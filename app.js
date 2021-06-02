@@ -1,8 +1,3 @@
-//Defining constants for Mumbai and Thane
-const MUMBAI_DISTRICT_ID = 395;
-const THANE_DISTRICT_ID = 392;
-
-
 //gettting HTML Table from index.html
 let table = document.getElementById('mainTable');
 
