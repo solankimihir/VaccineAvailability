@@ -55,7 +55,7 @@ function search() {
     console.log(dateOfAvailability);
     console.log(inputDistrictCodes);
     inputDistrictCodes = inputDistrictCodes.split(",");
-    document.getElementById('refreshTimerText').value = `Auto Refreshes every ${inputDistrictCodes.length * 3} seconds`;
+    document.getElementById('refreshTimerText').innerText = `Auto Refreshes every ${inputDistrictCodes.length * 3} seconds`;
     //clear existing records
     if (table.rows.length > 1) {
         console.log(table.rows.length);
@@ -75,7 +75,7 @@ function search() {
 //setting up default values
 document.getElementById('dateForCheckingAvailability').value = dateOfAvailability;
 document.getElementById('disctrictCodes').value = inputDistrictCodes;
-
+search();
 //run search on pressing enter
 document.onkeydown = function (event) {
     if (event.key !== undefined) {
