@@ -12,7 +12,8 @@ This app however does not book appointments for you. For the purpose of appointm
 
 #Notes about CoWIN API
 1. As per CoWin API guidelines on API Setu, the API Call limit is 100 API calls per 5 Minutes. This means on average you could make 1 API Request every 3 seconds. 
-2. API calls is being allowed only from Indian IP. If you make an API call from outside india, you will receive 
+2. API requests are served from cached data. Hence, there could be cases where the data received by the app could be upto 30 mins old.
+3. API calls is being allowed only from Indian IP. If you make an API call from outside india, you will receive 
     ```
     {
     "message": "Forbidden"
