@@ -40,6 +40,7 @@ const getVaccineAvailablity = async (districtIds, dateToCheck) => {
     const data = await fetch(url)
       .then((res) => res.json())
       .catch((err) => {
+        alert("Error making API call - please wait a moment and try again.")
         throw new Error(err);
       });
 
