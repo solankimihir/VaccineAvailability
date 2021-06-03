@@ -6,6 +6,8 @@ let dateOfAvailability = `${new Date().getDate() + 1}-${new Date().getUTCMonth()
 //default value is 392(THANE) 395(MUMBAI)
 let inputDistrictCodes = [392, 395];
 
+//default value of notification:
+let sendNotification = true;
 
 //Setting API Call Counter
 let countAPICalls = 0;
@@ -98,9 +100,46 @@ function search() {
         countAPICalls += 1;
     }
     document.getElementById('API_CALL_Count').innerText = `API Call Count: ${countAPICalls}`;
-
+    showNotification();
 }
 
+// Acquiring notification permission on checking "notifications" checkbox
+function getNotificationPermission() {
+    if (document.getElementById('notifications').checked) {
+        let permissionStatus = Notification.permission;
+        console.log(permissionStatus);
+        if (permissionStatus === 'granted') {
+            document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Granted";
+        } else if (permissionStatus !== 'denied') {
+            Notification.requestPermission().then(permissionRequest => {
+                permissionStatus = permissionRequest;
+                if (permissionStatus === 'granted') {
+                    document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Granted";
+                    sendNotification = true;
+                } else {
+                    document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Blocked";
+                    sendNotification = false;
+                }
+            })
+        } else {
+            document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Blocked (If you need notification then allow from browser menu)";
+            sendNotification = false;
+        }
+    } else {
+        document.getElementById('notificationPermissionStatus').innerHTML = "";
+        sendNotification = false;
+    }
+}
+
+function showNotification() {
+    if (sendNotification) {
+        const notification = new Notification("Vaccination Tracker", {
+            body: `Vaccine avaialble!`
+        });
+    }
+}
+
+//inserting rows in tables
 function insertRowInTable(_districtID, _districtName, _availabilityText, _name, _pinCode, _available_capacity_dose1, _available_capacity_dose2) {
     let newRow = table.insertRow();
     let newCell = newRow.insertCell();
@@ -118,6 +157,7 @@ function insertRowInTable(_districtID, _districtName, _availabilityText, _name, 
     newCell.innerHTML = _available_capacity_dose1;
     newCell = newRow.insertCell();
     newCell.innerHTML = _available_capacity_dose2;
+
 }
 //setting up default values
 document.getElementById('dateForCheckingAvailability').value = dateOfAvailability;
@@ -137,31 +177,6 @@ document.onkeydown = function (event) {
     }
 }
 
-
-
-// Acquiring notification permission on checking "notifications" checkbox
-function getNotificationPermission() {
-    if (document.getElementById('notifications').checked) {
-        let permissionStatus = Notification.permission;
-        console.log(permissionStatus);
-        if (permissionStatus === 'granted') {
-            document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Granted";
-        } else if (permissionStatus !== 'denied') {
-            Notification.requestPermission().then(permissionRequest => {
-                permissionStatus = permissionRequest;
-                if (permissionStatus === 'granted') {
-                    document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Granted";
-                } else {
-                    document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Blocked";
-                }
-            })
-        } else {
-            document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Blocked (If you need notification then allow from browser menu)";
-        }
-    } else {
-        document.getElementById('notificationPermissionStatus').innerHTML = "";
-    }
-}
 
 
 
