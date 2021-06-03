@@ -1,0 +1,35 @@
+table {
+  border-collapse: collapse;
+}
+
+.output td,
+.output th {
+  border: 1px solid black;
+  text-align: center;
+  padding: 5px 8px;
+  min-width: 80px;
+}
+
+/* .center {
+    width: 70%;
+    margin: auto;
+    border: 1px solid #4287f5;
+
+} */
+
+h1,
+h4 {
+  text-align: center;
+}
+
+#rightAlign {
+  text-align: right;
+  font-weight: bold;
+}
+
+#btn {
+  width: 15%;
+  height: 1.4em;
+  margin: 1em;
+  font-size: 1.6em;
+}
