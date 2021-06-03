@@ -48,6 +48,7 @@ async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
                     //Note: Here dose 1 or dose 2 avaialability is note checked, because if neither of them was available, then this code block would not run
                     //This code block is sub clause of top level If statement that runs only if (available_dose > 0)
                     insertRowInTable(districtID, districtName, `18+ Any Dose`, data.sessions[i].name, data.sessions[i].pincode, data.sessions[i].available_capacity_dose1, data.sessions[i].available_capacity_dose2);
+
                 }
                 else if (document.getElementById('optionsDose1').checked && data.sessions[i].available_capacity_dose1 > 0) {
                     //show dose 1 details only
@@ -75,6 +76,14 @@ async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
                 }
             }
         }
+        //when search is complete, show notification
+        if (i = data.sessions.length) {
+            //if rows are added to the table, then show notification:
+            console.log("Table Length " + table.rows.length);
+            if (table.rows.length > 1) {
+                showNotification();
+            }
+        }
     }
 
 }
@@ -100,7 +109,9 @@ function search() {
         countAPICalls += 1;
     }
     document.getElementById('API_CALL_Count').innerText = `API Call Count: ${countAPICalls}`;
-    showNotification();
+
+
+
 }
 
 // Acquiring notification permission on checking "notifications" checkbox
@@ -132,7 +143,8 @@ function getNotificationPermission() {
 }
 
 function showNotification() {
-    if (sendNotification) {
+    console.log("Called");
+    if (sendNotification === true) {
         const notification = new Notification("Vaccination Tracker", {
             body: `Vaccine avaialble!`
         });
