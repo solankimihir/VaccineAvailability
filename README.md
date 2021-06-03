@@ -9,6 +9,10 @@ This app however does not book appointments for you. For the purpose of appointm
 4. You can change the options and click on search.
 5. Let it auto-refresh for updating after set intervals (Generally refresh interval = 3 x Number of Disctrict IDs)
 
+# Note about Notifications:
+Notification API in javascript allows to send notifications only if:
+- Website is running locally; or
+- Website is running on secure connection (i.e HTTPS)
 
 # Notes about CoWIN API
 1. As per CoWin API guidelines on API Setu, the API Call limit is 100 API calls per 5 Minutes. This means on average you could make 1 API Request every 3 seconds. 
