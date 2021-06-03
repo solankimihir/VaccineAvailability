@@ -137,5 +137,36 @@ document.onkeydown = function (event) {
     }
 }
 
+
+
+// Acquiring notification permission on checking "notifications" checkbox
+function getNotificationPermission() {
+    if (document.getElementById('notifications').checked) {
+        let permissionStatus = Notification.permission;
+        console.log(permissionStatus);
+        if (permissionStatus === 'granted') {
+            document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Granted";
+        } else if (permissionStatus !== 'denied') {
+            Notification.requestPermission().then(permissionRequest => {
+                permissionStatus = permissionRequest;
+                if (permissionStatus === 'granted') {
+                    document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Granted";
+                } else {
+                    document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Blocked";
+                }
+            })
+        } else {
+            document.getElementById('notificationPermissionStatus').innerHTML = "Notification Permission Blocked (If you need notification then allow from browser menu)";
+        }
+    } else {
+        document.getElementById('notificationPermissionStatus').innerHTML = "";
+    }
+}
+
+
+
+
+
 //auto refreshing every (3 * number of disctricts) seconds. If there are 2 district codes, then the code will auto run every 6 seconds
+getNotificationPermission();
 setInterval(search, inputDistrictCodes.length * 3 * 1000);

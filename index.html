@@ -28,6 +28,12 @@
             text-align: right;
             font-weight: bold;
         }
+
+        #options {
+            max-width: 40%;
+            margin: auto;
+            text-align: left;
+        }
     </style>
 </head>
 
@@ -36,7 +42,8 @@
         <div class="center">
             <h1>Vaccine Availability Status</h1>
             <h4 id="refreshTimerText"></h4>
-            <table class="input">
+            <h4 id="notificationPermissionStatus"></h4>
+            <table class=" input">
                 <tbody>
                     <tr>
                         <td>Date [DD-MM-YYYY]</td>
@@ -57,13 +64,16 @@
                     </tr>
                 </tbody>
             </table>
-            <p>
+            <div id="options">
                 Options</br>
-                <input type="checkbox" id="optionsAge18plus" checked>Age 18+ &amp &lt 45 </input></br>
-                <input type="checkbox" id="optionsAge45plus">Age 45+ </input> </br>
+                <input type="checkbox" id="optionsAge18plus" checked>Age 18+ &amp; &lt; 45 </input><br>
+                <input type="checkbox" id="optionsAge45plus">Age 45+ </input> <br>
                 <input type="checkbox" id="optionsDose1" checked>Dose 1 </input></br>
-                <input type="checkbox" id="optionsDose2">Dose 2 </input>
-            </p>
+                <input type="checkbox" id="optionsDose2">Dose 2 </input> <br>
+                <input type="checkbox" id="notifications" onclick="getNotificationPermission()" checked>Notify when
+                slots become
+                available</input></br>
+            </div>
             <h4 id="API_CALL_Count"></h4>
 
 
