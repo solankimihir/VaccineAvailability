@@ -1,10 +1,8 @@
 //gettting HTML Table from index.html
-let table = document.getElementById('mainTable')
+let table = document.getElementById('mainTable');
 
 //default value is current day + 1 day i.e. next day
-let dateOfAvailability = `${new Date().getDate() + 1}-${
-  new Date().getUTCMonth() + 1
-}-${new Date().getFullYear()}`
+let dateOfAvailability = `${new Date().getDate() + 1}-${new Date().getUTCMonth() + 1}-${new Date().getFullYear()}`;
 //default value is 392(THANE) 395(MUMBAI)
 let inputDistrictCodes = [392, 395];
 
@@ -12,13 +10,12 @@ let inputDistrictCodes = [392, 395];
 let sendNotification = true;
 
 //Setting API Call Counter
-let countAPICalls = 0
+let countAPICalls = 0;
 
 //condition that is set getVaccineAvaialbility to filter records received from API Call
-let condition = false
+let condition = false;
 //This function has limit of 100 hits per 5 min interval.This amounts it an average of 1 API call per 3 seconds.
 async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
-
     console.log(`Checking for ${districtID} as on  ${dateForCheckingAvailability}`);
 
     const API_URL_GET_BY_DISCTRICT_ID = `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${districtID}&date=${dateForCheckingAvailability}`;
@@ -64,7 +61,7 @@ async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
             }
             if (document.getElementById('optionsAge45plus').checked && data.sessions[i].min_age_limit > 18) {
                 if (document.getElementById('optionsDose1').checked && document.getElementById('optionsDose2').checked) {
-                    //show both dose 1 & dose 2 details 
+                    //show both dose 1 & dose 2 details
                     //Note: Here dose 1 or dose 2 avaialability is note checked, because if neither of them was available, then this code block would not run
                     //This code block is sub clause of top level If statement that runs only if (available_dose > 0)
                     insertRowInTable(districtID, districtName, `45+ Any Dose`, data.sessions[i].name, data.sessions[i].pincode, data.sessions[i].available_capacity_dose1, data.sessions[i].available_capacity_dose2);
@@ -88,26 +85,23 @@ async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
             }
         }
     }
-  }
+
 }
 function search() {
-  //populating updated values from user input form into dateOfAvailability and inputDistrictCodes;
-  dateOfAvailability = document.getElementById('dateForCheckingAvailability').value
-  inputDistrictCodes = document.getElementById('disctrictCodes').value
-  console.log(dateOfAvailability)
-  console.log(inputDistrictCodes)
-  inputDistrictCodes = inputDistrictCodes.split(',')
-  document.getElementById('refreshTimerText').innerText = `Auto Refreshes every ${
-    inputDistrictCodes.length * 3
-  } seconds`
-  //clear existing records
-  if (table.rows.length > 1) {
-    console.log(table.rows.length)
-    for (i = -1 * table.rows.length; i < -1; i++) {
-      table.deleteRow(i * -1 - 1)
+    //populating updated values from user input form into dateOfAvailability and inputDistrictCodes;
+    dateOfAvailability = document.getElementById('dateForCheckingAvailability').value;
+    inputDistrictCodes = document.getElementById('disctrictCodes').value;
+    console.log(dateOfAvailability);
+    console.log(inputDistrictCodes);
+    inputDistrictCodes = inputDistrictCodes.split(",");
+    document.getElementById('refreshTimerText').innerText = `Auto Refreshes every ${inputDistrictCodes.length * 3} seconds`;
+    //clear existing records
+    if (table.rows.length > 1) {
+        console.log(table.rows.length);
+        for (i = -1 * table.rows.length; i < -1; i++) {
+            table.deleteRow(i * -1 - 1);
+        }
     }
-  }
-
 
 
     for (j = 0; j < inputDistrictCodes.length; j++) {
@@ -178,21 +172,21 @@ function insertRowInTable(_districtID, _districtName, _availabilityText, _name, 
 
 }
 //setting up default values
-document.getElementById('dateForCheckingAvailability').value = dateOfAvailability
-document.getElementById('disctrictCodes').value = inputDistrictCodes
-search()
+document.getElementById('dateForCheckingAvailability').value = dateOfAvailability;
+document.getElementById('disctrictCodes').value = inputDistrictCodes;
+search();
 //run search on pressing enter
 document.onkeydown = function (event) {
-  if (event.key !== undefined) {
-    code = event.key
-  } else if (event.keyIdentifier !== undefined) {
-    code = event.keyIdentifier
-  } else if (event.keyCode !== undefined) {
-    code = event.keyCode
-  }
-  if (event.keyCode == 13) {
-    search()
-  }
+    if (event.key !== undefined) {
+        code = event.key;
+    } else if (event.keyIdentifier !== undefined) {
+        code = event.keyIdentifier;
+    } else if (event.keyCode !== undefined) {
+        code = event.keyCode;
+    }
+    if (event.keyCode == 13) {
+        search();
+    }
 }
 
 
@@ -201,6 +195,5 @@ document.onkeydown = function (event) {
 
 
 //auto refreshing every (3 * number of disctricts) seconds. If there are 2 district codes, then the code will auto run every 6 seconds
-
 getNotificationPermission();
 setInterval(search, inputDistrictCodes.length * 3 * 1000);

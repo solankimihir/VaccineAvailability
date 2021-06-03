@@ -5,93 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Check Vaccine Status</title>
-
-    <style>
-        .output td {
-            border: 1px solid black;
-            text-align: center;
-        }
-
-        /* .center {
-            width: 70%;
-            margin: auto;
-            border: 1px solid #4287f5;
-
-        } */
-
-        h1,
-        h4 {
-            text-align: center;
-        }
-
-        #rightAlign {
-            text-align: right;
-            font-weight: bold;
-        }
-
-        #options {
-            max-width: 40%;
-            margin: auto;
-            text-align: left;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
   <body>
     <center>
+      <div class="center">
+        <h1>Vaccine Availability Status</h1>
+        <h4 id="refreshTimerText"></h4>
+        <table class="input">
+          <tbody>
+            <tr>
+              <td>Date [DD-MM-YYYY]</td>
+              <td><input type="text" id="dateForCheckingAvailability" /></td>
+            </tr>
 
-        <div class="center">
-            <h1>Vaccine Availability Status</h1>
-            <h4 id="refreshTimerText"></h4>
-            <h4 id="notificationPermissionStatus"></h4>
-            <table class=" input">
-                <tbody>
-                    <tr>
-                        <td>Date [DD-MM-YYYY]</td>
-                        <td><input type="text" id="dateForCheckingAvailability" /></td>
+            <tr>
+              <td>District Codes [Comma-Separated]</td>
+              <td><input type="text" id="districtCodes" value="392, 395" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button" id="btn" onclick="search()">Search</button>
 
-                    </tr>
+        <p>
+          Options<br />
+          <input type="checkbox" id="optionsAge18plus" checked />Age 18+<br />
+          <input type="checkbox" id="optionsAge45plus" />Age 45+<br />
+          <input type="checkbox" id="optionsDose1" checked />Dose 1<br />
+          <input type="checkbox" id="optionsDose2" />Dose 2
+        </p>
+        <h4 id="API_CALL_Count"></h4>
 
-                    <tr>
-                        <td>Disctrict Code(s) [Comma Separated]</td>
-                        <td><input type="text" id="disctrictCodes" /></td>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="rightAlign">Press Enter to Search:</td>
-                        <td>
-                            <center> <button type="button" onclick="search();">Search</button> </center>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div id="options">
-                Options</br>
-                <input type="checkbox" id="optionsAge18plus" checked>Age 18+ &amp; &lt; 45 </input><br>
-                <input type="checkbox" id="optionsAge45plus">Age 45+ </input> <br>
-                <input type="checkbox" id="optionsDose1" checked>Dose 1 </input></br>
-                <input type="checkbox" id="optionsDose2">Dose 2 </input> <br>
-                <input type="checkbox" id="notifications" onclick="getNotificationPermission()" checked>Notify when
-                slots become
-                available</input></br>
-            </div>
-            <h4 id="API_CALL_Count"></h4>
-
-
-            <table class="output" id="mainTable">
-                <tbody>
-                    <tr>
-                        <td>District Code</td>
-                        <td>District Name</td>
-                        <td>Availability</td>
-                        <td>Name</td>
-                        <td>Pin Code</td>
-                        <td>Available Capacity for Dose 1</td>
-                        <td>Available Capacity for Dose 2</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="output" id="mainTable">
+          <thead>
+            <tr>
+              <th>District Code</th>
+              <th>District Name</th>
+              <th>Availability</th>
+              <th>Name</th>
+              <th>Pin Code</th>
+              <th>Vaccine Name</th>
+              <th>Paid/Free</th>
+              <th>Cost</th>
+              <th>Available Capacity for Dose 1</th>
+              <th>Available Capacity for Dose 2</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </center>
     <script src="script.js"></script>
   </body>
