@@ -61,7 +61,7 @@ async function getVaccineAvailablity(districtID, dateForCheckingAvailability) {
             }
             if (document.getElementById('optionsAge45plus').checked && data.sessions[i].min_age_limit > 18) {
                 if (document.getElementById('optionsDose1').checked && document.getElementById('optionsDose2').checked) {
-                    //show both dose 1 & dose 2 details 
+                    //show both dose 1 & dose 2 details
                     //Note: Here dose 1 or dose 2 avaialability is note checked, because if neither of them was available, then this code block would not run
                     //This code block is sub clause of top level If statement that runs only if (available_dose > 0)
                     insertRowInTable(districtID, districtName, `45+ Any Dose`, data.sessions[i].name, data.sessions[i].pincode, data.sessions[i].available_capacity_dose1, data.sessions[i].available_capacity_dose2);
