@@ -7,7 +7,7 @@ const districtsField = document.getElementById('districtCodes');
 // Init variables
 let dateOfAvailability = `${new Date().getDate() + 1}-${new Date().getUTCMonth() + 1}-${new Date().getFullYear()}`;
 dateField.value = dateOfAvailability;
-let inputDistrictCodes = districtsField.value.replace(/\s/g, '').split(',');
+let inputDistrictCodes = districtsField.value.replace(/\s/g, '').split(',');  // \s is spaces, so this strips any spaces from the input if user includes them.
 let isFilteredResult = false;
 
 // District Lookup Table
@@ -25,14 +25,6 @@ const getVaccineAvailablity = async (districtIds, dateToCheck) => {
     doseOne: document.getElementById('optionsDose1').checked,
     doseTwo: document.getElementById('optionsDose2').checked,
   };
-
-  if (!options.eighteen && !options.fortyFive) {
-    alert('Please select which age(s) you are looking for.');
-    return;
-  } else if (!options.doseOne && !options.doseTwo) {
-    alert('Please select which dose(s) you are looking for.');
-    return;
-  }
 
   for (const districtId of districtIds) {
     console.log(`Checking for ${districtId} on ${dateToCheck}`);
